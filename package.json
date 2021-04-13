@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "node build.js",
+    "build2": "node build2.js",
     "deploy:docs": "npm run build && gh-pages -d dist",
     "release": "npm run build && npm publish"
   },
@@ -41,5 +42,7 @@
     "postcss-inline": "^1.2.0",
     "postcss-inline-svg": "^4.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "postcss-custom-properties": "^10.0.0"
+  }
 }

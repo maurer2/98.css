@@ -2,24 +2,23 @@
 const path = require("path");
 const fs = require("fs");
 const postcss = require("postcss");
-const postcssExtractStyles = require('postcss-extract-styles');
+const postcssExtractStyles = require("postcss-extract-styles");
 
 async function build() {
-  const source = fs.readFileSync(path.join(__dirname, 'style.css'), 'utf8');
+  const fileIn = path.join(__dirname, 'style.css')
+  const fileOut = path.join(__dirname, 'dist/variables.css')
 
-  const options = {
-    pattern: /^--/g
-  };
-
-  const fileName1 = path.join(__dirname, 'style.css')
-  const fileName2 = path.join(__dirname, 'dest/variables2.css')
-
-  fs.readFile(path.join(__dirname, 'style.css'), (error, css) => {
-    postcss([postcssExtractStyles(options)])
-      .process(css, { from: fileName1, to: fileName2 })
+  fs.readFile(path.join(__dirname, 'style.css'), (_, css) => {
+    postcss([postcssExtractStyles({
+      pattern: /^--/g
+    })])
+      .process(css, { from: fileIn, to: fileOut })
       .then(result => {
-        console.log(result.extracted)
+        fs.writeFile(fileOut, result.extracted.trim(), () => {
+          console.log(`"${fileOut}" file written`)
+        })
       })
+      .catch((error) => console.err(error))
   })
 }
 
